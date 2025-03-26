@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/html">
+  <head>
+    <title>Самые высокие здания и сооружения</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+  <a href="/">Назад</a>
+  <br>
+  <a href="/model">Модель</a>
+  <br>
+  <a href="/make">Производитель</a>
+  <br>
+  <a href="/year-range">Год c 2000 по 2007</a>
+  <br>
+  <a href="/country">Страна</a>
+  <br>
+  <a href="/city">Город</a>
+    <h3>Список транспорта</h3>
+   {% macro render_table(headers, rows) %}
+        <table>
+            <thead>
+                <tr>
+                    {% for header in headers %}
+                        <th>{{ header }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        {% for value in row %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="{{ headers|length }}">Нет данных для отображения</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endmacro %}
+
+    {{ render_table(vehicles_head, vehicles_body) }}
+  </body>
+</html>
