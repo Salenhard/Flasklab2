@@ -13,15 +13,17 @@ def index():
     )
     return html
 
+
 @app.route('/year-range')
 def year_range():
-    [vehicles_head, vehicles_body] = get_vehicle_by_year_range(2000,2007)
+    [vehicles_head, vehicles_body] = get_vehicle_by_year_range(2000, 2007)
     html = render_template(
         'index.html',
         vehicles_head=vehicles_head,
         vehicles_body=vehicles_body
     )
     return html
+
 
 @app.route('/model')
 def model():
@@ -33,6 +35,7 @@ def model():
     )
     return html
 
+
 @app.route('/make')
 def make():
     [vehicles_head, vehicles_body] = get_vehicle_electric_range_by_make()
@@ -43,6 +46,7 @@ def make():
     )
     return html
 
+
 @app.route('/city')
 def city():
     [vehicles_head, vehicles_body] = get_vehicle_by_city()
@@ -52,6 +56,18 @@ def city():
         vehicles_body=vehicles_body
     )
     return html
+
+
+@app.route('/test')
+def test():
+    [vehicles_head, vehicles_body] = get_vehicle_electric_range_by_popular_model()
+    html = render_template(
+    'index.html',
+    vehicles_head = vehicles_head,
+    vehicles_body = vehicles_body
+    )
+    return html
+
 
 @app.route('/country')
 def country():

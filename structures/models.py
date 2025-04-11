@@ -1,7 +1,6 @@
 from config import db
 from models import Vehicle, Model, Make, City, Country
-from sqlalchemy import func
-
+from sqlalchemy import func,desc
 def get_all_vehicles():
     query = (
         db.session.query(
@@ -97,4 +96,32 @@ def get_vehicle_by_country():
         .join(Country)
         .group_by(Country.name)
     )
+    return [query.statement.columns.keys(), query.all()]
+
+def get_vehicle_electric_range_by_popular_model():
+    query = (
+        db.session.query(Vehicle.id.label("VIN"),
+            Model.name.label("Модель"),
+            Make.name.label("Производитель"),
+            City.name.label("Город"),
+            Country.name.label("Страна"),
+            Vehicle.model_year.label("Год"),
+            Vehicle.electric_range.label("Запас хода")
+        )
+        .select_from(Vehicle)
+        .join(Model)
+        .join(Make)
+        .join(City)
+        .join(Country)
+        .filter(Vehicle.model_id == db.session.query(
+            Vehicle.model_id.label("id"),
+            func.count(Vehicle.model_id).label("counter")
+        )
+        .select_from(Vehicle)
+        .group_by(Vehicle.model_id)
+        .order_by(desc("counter")).limit(1).all()[0][0]
+    ))
+
+
+
     return [query.statement.columns.keys(), query.all()]
